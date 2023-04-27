@@ -41,14 +41,14 @@ class CarbonCalculator(CarbonCalculatorABC, ErrorHandler):
 
     def calculate_housing_emissions(self):  # Ask user for housing information
 
-        house_size_sq_m = self.get_float("Size of your house (square meters): ")
-        occupants = self.get_int("Number of occupants in your house: ")
-        electricity_use = self.get_float("Electric consumption per month (kWH): ")
-        cooking_fuel = self.get_int("Enter the type of cooking fuel (1-LPG, 2-Electric, 3-Bio): ")
+        house_size_sq_m = super().get_float("Size of your house (square meters): ")
+        occupants = super().get_int("Number of occupants in your house: ")
+        electricity_use = super().get_float("Electric consumption per month (kWH): ")
+        cooking_fuel = super().get_int("Enter the type of cooking fuel (1-LPG, 2-Electric, 3-Bio): ")
 
         lpg_emissions = 0
         if cooking_fuel == 1:
-            lpg_use = self.get_float("Estimate the number of days your 11 kg LPG lasts: ")
+            lpg_use = super().get_float("Estimate the number of days your 11 kg LPG lasts: ")
             lpg_emissions = (35 / lpg_use) * 30  # 35 CO2e = (30 per LPG cylinder) + (5 average CO2e of stove per Cylinder)
 
         #  Formulas per month
@@ -70,15 +70,15 @@ Response: ''', ['0', '1', '2'])
         if transportation_type == '0':
             transportation_co2e = 0  # No emissions for walking
         elif transportation_type == '1':
-            passengers = self.get_int("Number of people in the vehicle: ")
-            distance = self.get_float("Distance of your transportation (km): ")
-            fuel_efficiency = self.get_float(
+            passengers = super().get_int("Number of people in the vehicle: ")
+            distance = super().get_float("Distance of your transportation (km): ")
+            fuel_efficiency = super().get_float(
                 "What is the fuel efficiency of the vehicle (in km/L)? ")
             fuel_type = input("What type of fuel does the vehicle use? (1 - Gasoline / 2 - Diesel) ")
             emissions_factor = 2352.7 if fuel_type == '1' else 2639.4 if fuel_type == '2' else 0
             transportation_co2e = (emissions_factor * distance / fuel_efficiency) / passengers
         elif transportation_type == '2':
-            distance = self.get_float("Distance of your transportation (km): ")
+            distance = super().get_float("Distance of your transportation (km): ")
             transportation_co2e = 90 * distance  # 90 g CO2e/km/passenger on average for public transportation
         else:
             print("Sorry, we didn't understand your transportation type.")
