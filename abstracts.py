@@ -1,33 +1,51 @@
 from abc import ABC, abstractmethod
 
-class ErrorHandler(ABC):
+class ErrorHandlerABC(ABC):
     """
-    Abstract Base Class for Error Handling.
+    Handles posible logical error by filtering user's input
     """
-
     @abstractmethod
-    def get_valid_option(self, prompt: str, valid_options: list) -> str:
+    def get_valid_option(self, prompt, valid_options):
         """
-        Checks if the user input is valid.
+        Gets a valid option from the user, given a prompt and a list of valid options.
+
+        Args:
+            prompt (str): The prompt to display to the user.
+            valid_options (list of str): The list of valid options.
+
+        Returns:
+            str: The valid option entered by the user.
         """
         pass
 
     @abstractmethod
-    def get_float(self, prompt: str) -> float:
+    def get_float(self, prompt):
         """
-        Checks if the user input is a float that is greater than 0.
+        Gets a valid float value from the user, given a prompt.
+
+        Args:
+            prompt (str): The prompt to display to the user.
+
+        Returns:
+            float: The valid float value entered by the user.
         """
         pass
 
     @abstractmethod
-    def get_int(self, prompt: str) -> int:
+    def get_int(self, prompt):
         """
-        Checks if the user input is a integer that is greater than 0.
+        Gets a valid integer value from the user, given a prompt.
+
+        Args:
+            prompt (str): The prompt to display to the user.
+
+        Returns:
+            int: The valid integer value entered by the user.
         """
         pass
 
 
-class CarbonCalculator(ABC):
+class CarbonCalculatorABC(ABC):
     """
     Abstract Base Class for Calculating Carbon Footprint.
     """
