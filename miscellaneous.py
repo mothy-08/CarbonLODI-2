@@ -113,3 +113,4 @@ Response: ''', ['0', '1', '2'])
         total_emissions = self.calculate_housing_emissions() + self.calculate_transportation_emissions() + self.calculate_food_emissions()
         with open(self.filename, 'a') as file:
             file.write(total_emissions)
+            
