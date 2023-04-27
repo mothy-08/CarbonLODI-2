@@ -5,8 +5,8 @@ from miscellaneous import AccountManager
 
 while True:  # Runs the Main Menu in loop
     os.system('cls')
-    print(Constants.logo)
-    choice = input(Constants.main_menu)
+    print(Constants().logo)
+    choice = input(Constants().main_menu)
     print("")
 
     os.system('cls')  # Clear screen before processing user choice
