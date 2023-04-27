@@ -218,72 +218,7 @@ def get_diet(self):
 
 #needs error handling
 
-def main():
-    # Collecting user input for transportation
-    transport_type = input("What mode of transportation did you use? (car, train, bus, motorcycle, tricycle, walking, cycling): ")
-    transportation_emissions = 0
-    if transport_type == "walking" or transport_type == "cycling":
-        pass
-    else:
-        fuel_type = input("What fuel type did you use? (gasoline, diesel, electricity): ")
-        distance = float(input("How many kilometers did you travel? "))
-        vehicle_type = ""
-        if transport_type == "car" or transport_type == "motorcycle" or transport_type == "tricycle":
-            vehicle_type = input("What type of vehicle did you use? (sedan, suv): ")
-        # Creating a Transportation object
-        transportation = Transportation(fuel_type, distance, vehicle_type, transport_type)
-        transportation_emissions = transportation.calculate_emissions()
 
-
-    # Collecting user input for diet
-    
-    meat_consumption = float(input("How many grams of meat did you consume? "))
-    dairy_consumption = float(input("How many grams of dairy did you consume? "))
-    grain_consumption = float(input("How many grams of grain did you consume? "))
-    fruit_veg_consumption = float(input("How many grams of fruits and vegetables did you consume? "))
-    seafood_consumption = float(input("How many grams of seafood did you consume? "))
-
-    if meat_consumption == 0:
-        meat_source = 0
-    else:
-        meat_source = input("What was the source of your meat? (beef, pork, poultry, fish, none): ")
-
-    if dairy_consumption == 0:
-        dairy_source = 0
-    else:
-        dairy_source = input("What was the source of your dairy? (cow, goat, sheep, none): ")
-    if grain_consumption == 0:
-        grain_source = 0
-    else:
-        grain_source = input("What was the source of your grain? (rice, wheat, corn, none): ")
-    if fruit_veg_consumption == 0:
-        fruit_veg_source = 0
-    else:
-        fruit_veg_source = input("What was the source of your fruits and vegetables? (local, imported, none): ")
-    if seafood_consumption == 0:
-        seafood_source = 0
-    else:
-        seafood_source = input("What was the source of your seafood? (local, imported, none): ")
-
-    # Creating a Diet object
-    diet = Diet(meat_consumption, dairy_consumption, grain_consumption, fruit_veg_consumption, seafood_consumption,
-                meat_source, dairy_source, grain_source, fruit_veg_source, seafood_source)
-    diet_emissions = diet.calculate_carbon_footprint()
-
-    # Collecting user input for housing
-    square_footage = float(input("What is the square footage of your house? "))
-    num_residents = int(input("How many people live in your house? "))
-    energy_source = input("What is the source of energy for your house? (electricity, natural_gas, oil): ")
-    num_vehicles = int(input("How many vehicles do you own? "))
-    location = input("What is the location of your house? (urban, suburban, rural): ")
-
-    # Creating a House object
-    house = House(square_footage, num_residents, energy_source, num_vehicles, location)
-    house_emissions = house.calculate_emissions()
-
-    # Calculating total carbon footprint
-    total_emissions = (transportation_emissions + diet_emissions + house_emissions)/1000
-    print("Your total carbon footprint is:", round(total_emissions, 2), "kg CO2 eq.")
 
 if __name__ == '__main__':
     main()
