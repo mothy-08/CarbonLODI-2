@@ -1,6 +1,5 @@
 import os
 from miscellaneous import AccountManager
-import constants
 
 
 while True:  # Runs the Main Menu in loop
