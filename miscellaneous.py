@@ -15,9 +15,7 @@ class Constants:
 ██║     ███████║██████╔╝██████╔╝██║   ██║██╔██╗ ██║    ██║     ██║   ██║██║  ██║██║
 ██║     ██╔══██║██╔══██╗██╔══██╗██║   ██║██║╚██╗██║    ██║     ██║   ██║██║  ██║██║
 ╚██████╗██║  ██║██║  ██║██████╔╝╚██████╔╝██║ ╚████║    ███████╗╚██████╔╝██████╔╝██║
- ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═══╝    ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝
-
-                                                               '''
+ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═══╝    ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝'''
 
     main_menu = '''
                                      Main Menu
@@ -33,7 +31,7 @@ Response: '''
             lines = file.readlines()
             if lines:
                 random_line = random.choice(lines)
-                print(f"\nRecommendation: {random_line.strip()}")
+                print(f"\n\t\tRecommendation: {random_line.strip()}")
 
 
 class ErrorHandler(ErrorHandlerABC):
@@ -256,6 +254,7 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
 Response: '''
         os.system('cls')
         print(Constants.logo)
+        Constants.print_random_recommendation()
         choice = super().get_valid_option(main_menu, ['1', '2', '0'])
         if choice == '1':
             super(AccountManager, self).calculate_all(self.current_user)
