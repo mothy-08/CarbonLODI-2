@@ -212,7 +212,8 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
             print(f"File 'user-{current_user}.txt' does not exist.")
         return data_dict
 
-    def generate_table(self, data_dict):
+    @staticmethod
+    def generate_table(data_dict):
         if not data_dict:
             print("Data dictionary is empty. File may not exist.")
             return ''
