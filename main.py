@@ -5,6 +5,7 @@ from miscellaneous import AccountManager
 while True:  # Runs the Main Menu in loop
     os.system('cls')
     print(Constants().logo)
+    Constants.print_random_recommendation()
     choice = input(Constants().main_menu)
     print("")
 
