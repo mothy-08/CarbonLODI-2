@@ -8,20 +8,22 @@ import datetime
 
 class Constants:
     logo = '''
-   ______           __                   __    ____  ____  ____
-  / ____/___ ______/ /_  ____  ____     / /   / __ \/ __ \/  _/
- / /   / __ `/ ___/ __ \/ __ \/ __ \   / /   / / / / / / // /  
-/ /___/ /_/ / /  / /_/ / /_/ / / / /  / /___/ /_/ / /_/ // /   
-\____/\__,_/_/  /_.___/\____/_/ /_/  /_____/\____/_____/___/   
+
+ ██████╗ █████╗ ██████╗ ██████╗  ██████╗ ███╗   ██╗    ██╗      ██████╗ ██████╗ ██╗
+██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔═══██╗████╗  ██║    ██║     ██╔═══██╗██╔══██╗██║
+██║     ███████║██████╔╝██████╔╝██║   ██║██╔██╗ ██║    ██║     ██║   ██║██║  ██║██║
+██║     ██╔══██║██╔══██╗██╔══██╗██║   ██║██║╚██╗██║    ██║     ██║   ██║██║  ██║██║
+╚██████╗██║  ██║██║  ██║██████╔╝╚██████╔╝██║ ╚████║    ███████╗╚██████╔╝██████╔╝██║
+ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═══╝    ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝
 
                                                                '''
 
     main_menu = '''
-                         Main Menu
-
-                        1 - Register
-                        2 - Login
-                        0 - Exit
+                                     Main Menu
+            
+                                    1 - Register
+                                    2 - Login
+                                    0 - Exit
 Response: '''
 
 
@@ -232,11 +234,11 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
     def show_home(self, current_user):
         self.current_user = current_user
         main_menu = '''
-                            Menu
-
-                        1 - Calculate Emission
-                        2 - Track
-                        0 - Log out
+                                        Menu
+            
+                                    1 - Calculate Emission
+                                    2 - Track
+                                    0 - Log out
 Response: '''
         os.system('cls')
         print(Constants.logo)
