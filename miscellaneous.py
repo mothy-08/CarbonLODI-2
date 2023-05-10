@@ -243,12 +243,10 @@ Response: '''
         choice = super().get_valid_option(main_menu, ['1', '2', '0'])
         if choice == '1':
             super(AccountManager, self).calculate_all(self.current_user)
-            input("Press Enter to continue...")
+            input("\nPress any key to continue...")
         elif choice == '2':
-            os.system('cls')
             data_dict = self.file_to_dict(current_user)
-            table = self.generate_table(data_dict)
-            print(table)
-            input("Press Enter to continue...")
+            print(f"\n{self.generate_table(data_dict)}")
+            input("\nPress any key to continue...")
         else:
             pass
