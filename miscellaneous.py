@@ -1,7 +1,7 @@
 from abstracts import ErrorHandlerABC
 from abstracts import CarbonCalculatorABC
 from abstracts import AccountManagerABC
-from prettytable import PrettyTable
+from tabulate import tabulate
 import os
 import datetime
 
@@ -135,7 +135,6 @@ Response: ''', ['0', '1', '2'])
         filename = f"user-{current_user}.txt"  # names '.txt' files for each user
         total_emissions = self.calculate_housing_emissions() + self.calculate_transportation_emissions() + self.calculate_food_emissions()
         print(f"Today's total carbon emission is {total_emissions} grams")
-        input('Press any key to continue...')
         with open(filename, 'a') as file:
             file.write(f"{date.strftime('%Y-%m-%d')} : {round(total_emissions, 2)}\n")
 
@@ -200,23 +199,20 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
         else:
             print("Invalid username or password.")
 
-    def generate_table(self, current_user):
-        user_data = {}
-        with open(f'user-{current_user}.txt', 'r') as file:
+    def file_to_dict(self, current_user):
+        data_dict = {}
+        with open(f"user-{current_user}.txt", 'r') as file:
             for line in file:
                 date, emissions = line.strip().split(' : ')
-                user_data[date] = emissions
+                data_dict[date] = emissions
+        return data_dict
 
-        max_date_len = max(len(date) for date in user_data.keys())
-        max_emissions_len = max(len(emissions) for emissions in user_data.values())
-
+    def generate_table(self, data_dict):
         table = []
-        table.append(['Date'.ljust(max_date_len), 'Total Emissions (grams)'.ljust(max_emissions_len)])
-        for date, emissions in user_data.items():
-            table.append([date.ljust(max_date_len), emissions.ljust(max_emissions_len)])
-
-        for row in table:
-            print(row[0], '|', row[1])
+        headers = ['Date', 'Total Emissions (grams)']
+        for date, emissions in data_dict.items():
+            table.append([date, emissions])
+        return tabulate(table, headers, tablefmt='grid')
 
     def show_home(self, current_user):
         self.current_user = current_user
@@ -234,6 +230,9 @@ Response: '''
             super(AccountManager, self).calculate_all(self.current_user)
             input("Press Enter to continue...")
         elif choice == '2':
-            self.generate_table(current_user)
+            data_dict = self.file_to_dict(current_user)
+            table = self.generate_table(data_dict)
+            print(table)
+            input("Press Enter to continue...")
         else:
             pass
