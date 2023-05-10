@@ -4,6 +4,7 @@ from abstracts import AccountManagerABC
 from tabulate import tabulate
 import os
 import datetime
+import random
 
 
 class Constants:
@@ -25,6 +26,14 @@ class Constants:
                                     2 - Login
                                     0 - Exit
 Response: '''
+
+    @staticmethod
+    def print_random_recommendation():
+        with open('recommendations.txt', 'r') as file:
+            lines = file.readlines()
+            if lines:
+                random_line = random.choice(lines)
+                print(f"\nRecommendation: {random_line.strip()}")
 
 
 class ErrorHandler(ErrorHandlerABC):
@@ -69,12 +78,16 @@ class CarbonCalculator(CarbonCalculatorABC, ErrorHandler):
         cooking_fuel = super().get_int("Enter the type of cooking fuel (1-LPG, 2-Electric, 3-Bio): ")
 
         emissions_mapping = {
-            1: {'fuel': 'LPG', 'coefficient': 35 / super().get_float("Estimate the number of days your 11 kg LPG lasts: ") * 30},
-            2: {'fuel': 'Electric', 'coefficient': super().get_float("Estimate the average number of hours per day you use an electric stove: ") * 0.42},
-            3: {'fuel': 'Bio', 'coefficient': super().get_float("Estimate the average number of hours per day you use a bio stove: ") * 0.03}
+            1: {'fuel': 'LPG',
+                'coefficient': 35 / super().get_float("Estimate the number of days your 11 kg LPG lasts: ") * 30},
+            2: {'fuel': 'Electric', 'coefficient': super().get_float(
+                "Estimate the average number of hours per day you use an electric stove: ") * 0.42},
+            3: {'fuel': 'Bio', 'coefficient': super().get_float(
+                "Estimate the average number of hours per day you use a bio stove: ") * 0.03}
         }
 
-        cooking_emission = sum(mapping['coefficient'] for fuel_type, mapping in emissions_mapping.items() if fuel_type == cooking_fuel)
+        cooking_emission = sum(
+            mapping['coefficient'] for fuel_type, mapping in emissions_mapping.items() if fuel_type == cooking_fuel)
         #  Formulas per month
         house_size_sq_ft = house_size_sq_m * 10.764  # 1 sq m = 10.764 sq ft
         electricity_emissions = electricity_use * 0.5  # 0.5 kg CO2e per kWH
@@ -138,6 +151,7 @@ Response: ''', ['0', '1', '2'])
         filename = f"user-{current_user}.txt"  # names '.txt' files for each user
         total_emissions = self.calculate_housing_emissions() + self.calculate_transportation_emissions() + self.calculate_food_emissions()
         print(f"Today's total carbon emission is {total_emissions} grams")
+        Constants.print_random_recommendation()
         with open(filename, 'a') as file:
             file.write(f"{date.strftime('%Y-%m-%d')} : {round(total_emissions, 2)}\n")
 
@@ -249,6 +263,7 @@ Response: '''
         elif choice == '2':
             data_dict = self.file_to_dict(current_user)
             print(f"\n{self.generate_table(data_dict)}")
+            Constants.print_random_recommendation()
             input("\nPress any key to continue...")
         else:
             pass
