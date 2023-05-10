@@ -41,7 +41,7 @@ class ErrorHandlerABC(ABC):
         pass
 
 
-class CarbonCalculatorABC(ABC, ErrorHandlerABC):
+class CarbonCalculatorABC(ErrorHandlerABC, ABC):
     """Abstract base class for carbon calculator methods."""
 
     @abstractmethod
@@ -81,7 +81,7 @@ class CarbonCalculatorABC(ABC, ErrorHandlerABC):
         pass
 
 
-class AccountManagerABC(ABC, CarbonCalculatorABC):
+class AccountManagerABC(CarbonCalculatorABC, ABC):
     """Abstract base class for account management methods."""
 
     @abstractmethod

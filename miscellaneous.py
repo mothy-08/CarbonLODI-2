@@ -206,8 +206,13 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
         try:
             with open(f"user-{current_user}.txt", 'r') as file:
                 for line in file:
-                    date, emissions = line.strip().split(' : ')
-                    data_dict[date] = emissions
+                    line = line.strip()
+                    if line:
+                        date, emissions = line.split(' : ')
+                        if date in data_dict:
+                            data_dict[date] += f"\n{emissions}"
+                        else:
+                            data_dict[date] = emissions
         except FileNotFoundError:
             print(f"File 'user-{current_user}.txt' does not exist.")
         return data_dict
@@ -240,6 +245,7 @@ Response: '''
             super(AccountManager, self).calculate_all(self.current_user)
             input("Press Enter to continue...")
         elif choice == '2':
+            os.system('cls')
             data_dict = self.file_to_dict(current_user)
             table = self.generate_table(data_dict)
             print(table)
