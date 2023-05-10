@@ -13,12 +13,12 @@ while True:  # Runs the Main Menu in loop
 
     if choice == '1':
         current_user = AccountManager().register()
-        input("Press Enter to continue...")
+        input("\nPress any key to continue...")
     elif choice == '2':
         AccountManager().load_users()
         current_user = AccountManager().login()
         if current_user is None:
-            input("Press Enter to continue...")
+            input("\nPress any key to continue...")
         else:
             AccountManager().show_home(current_user)
     elif choice == '0':
