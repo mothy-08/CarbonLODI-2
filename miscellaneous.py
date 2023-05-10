@@ -66,18 +66,19 @@ class CarbonCalculator(CarbonCalculatorABC, ErrorHandler):
         electricity_use = super().get_float("Electric consumption per month (kWH): ")
         cooking_fuel = super().get_int("Enter the type of cooking fuel (1-LPG, 2-Electric, 3-Bio): ")
 
-        lpg_emissions = 0
-        if cooking_fuel == 1:
-            lpg_use = super().get_float("Estimate the number of days your 11 kg LPG lasts: ")
-            lpg_emissions = (
-                                    35 / lpg_use) * 30  # 35 CO2e = (30 per LPG cylinder) + (5 average CO2e of stove per Cylinder)
+        emissions_mapping = {
+            1: {'fuel': 'LPG', 'coefficient': 35 / super().get_float("Estimate the number of days your 11 kg LPG lasts: ") * 30},
+            2: {'fuel': 'Electric', 'coefficient': super().get_float("Estimate the average number of hours per day you use an electric stove: ") * 0.42},
+            3: {'fuel': 'Bio', 'coefficient': super().get_float("Estimate the average number of hours per day you use a bio stove: ") * 0.03}
+        }
 
+        cooking_emission = sum(mapping['coefficient'] for fuel_type, mapping in emissions_mapping.items() if fuel_type == cooking_fuel)
         #  Formulas per month
         house_size_sq_ft = house_size_sq_m * 10.764  # 1 sq m = 10.764 sq ft
         electricity_emissions = electricity_use * 0.5  # 0.5 kg CO2e per kWH
 
         # Convert to grams per day
-        return ((electricity_emissions + lpg_emissions) / occupants / house_size_sq_ft) * 1000 / 30
+        return ((electricity_emissions + cooking_emission) / occupants / house_size_sq_ft) * 1000 / 30
 
     def calculate_transportation_emissions(self):
         transportation_type = self.get_valid_option('''
@@ -199,15 +200,23 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
         else:
             print("Invalid username or password.")
 
-    def file_to_dict(self, current_user):
+    @staticmethod
+    def file_to_dict(current_user):
         data_dict = {}
-        with open(f"user-{current_user}.txt", 'r') as file:
-            for line in file:
-                date, emissions = line.strip().split(' : ')
-                data_dict[date] = emissions
+        try:
+            with open(f"user-{current_user}.txt", 'r') as file:
+                for line in file:
+                    date, emissions = line.strip().split(' : ')
+                    data_dict[date] = emissions
+        except FileNotFoundError:
+            print(f"File 'user-{current_user}.txt' does not exist.")
         return data_dict
 
     def generate_table(self, data_dict):
+        if not data_dict:
+            print("Data dictionary is empty. File may not exist.")
+            return ''
+
         table = []
         headers = ['Date', 'Total Emissions (grams)']
         for date, emissions in data_dict.items():

@@ -3,3 +3,4 @@ deo:kfz
 1:k
 :
 q:k
+pl:kf
