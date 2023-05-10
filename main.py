@@ -2,7 +2,6 @@ import os
 from miscellaneous import Constants
 from miscellaneous import AccountManager
 
-
 while True:  # Runs the Main Menu in loop
     os.system('cls')
     print(Constants().logo)
