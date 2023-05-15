@@ -1,10 +1,28 @@
-from abstracts import ErrorHandlerABC
-from abstracts import CarbonCalculatorABC
-from abstracts import AccountManagerABC
-from tabulate import tabulate
+import time
 import os
+import sys
 import datetime
 import random
+from typing import Tuple, List
+
+try:
+    from tabulate import tabulate
+except ModuleNotFoundError:
+    # Handle the missing module error
+    print("The 'tabulate' module is not installed.")
+    print("Please install it by running: pip install tabulate")
+    time.sleep(3)
+    sys.exit(1001)
+try:
+    from abstracts import ErrorHandlerABC
+    from abstracts import CarbonCalculatorABC
+    from abstracts import AccountManagerABC
+except ModuleNotFoundError:
+    # Handle the missing module error
+    print("The 'abstracts.py' file is missing.")
+    print("Please download the latest version of the Repository")
+    time.sleep(3)
+    sys.exit(1002)
 
 
 class Constants:
@@ -25,6 +43,30 @@ class Constants:
                                     0 - Exit
 Response: '''
 
+    home_menu = '''
+                                        Menu
+
+                                    1 - Calculate Emission
+                                    2 - Track
+                                    0 - Log out
+Response: '''
+
+    cooking_menu = '''
+            Your cooking fuel
+                0 - LPG
+                1 - Electric
+                2 - Bio
+
+Response: '''
+
+    transportation_menu = '''
+                Your form of transportation 
+                    0 - Walking
+                    1 - Private Vehicle
+                    2 - Public Vehicle
+
+    Response: '''
+
     @staticmethod
     def print_random_recommendation():
         file_path = os.path.join(os.getcwd(), 'resources', 'recommendations.txt')
@@ -36,7 +78,9 @@ Response: '''
 
 
 class ErrorHandler(ErrorHandlerABC):
-    def get_valid_option(self, prompt, valid_options):
+    def get_valid_option(self, prompt, valid_options=None):
+        if valid_options is None:
+            valid_options = ['0', '1', '2']
         while True:
             option = input(prompt)
             if option in valid_options:
@@ -74,14 +118,14 @@ class CarbonCalculator(CarbonCalculatorABC, ErrorHandler):
         house_size_sq_m = super().get_float("Size of your house (square meters): ")
         occupants = super().get_int("Number of occupants in your house: ")
         electricity_use = super().get_float("Electric consumption per month (kWH): ")
-        cooking_fuel = super().get_int("Enter the type of cooking fuel (1-LPG, 2-Electric, 3-Bio): ")
+        cooking_fuel = super().get_valid_option(Constants.cooking_menu)
 
         emissions_mapping = {
-            1: {'fuel': 'LPG',
+            '1': {'fuel': 'LPG',
                 'coefficient': 35 / super().get_float("Estimate the number of days your 11 kg LPG lasts: ") * 30},
-            2: {'fuel': 'Electric', 'coefficient': super().get_float(
+            '2': {'fuel': 'Electric', 'coefficient': super().get_float(
                 "Estimate the average number of hours per day you use an electric stove: ") * 0.42},
-            3: {'fuel': 'Bio', 'coefficient': super().get_float(
+            '3': {'fuel': 'Bio', 'coefficient': super().get_float(
                 "Estimate the average number of hours per day you use a bio stove: ") * 0.03}
         }
 
@@ -95,13 +139,7 @@ class CarbonCalculator(CarbonCalculatorABC, ErrorHandler):
         return ((electricity_emissions + cooking_emission) / occupants / house_size_sq_ft) * 1000 / 30
 
     def calculate_transportation_emissions(self):
-        transportation_type = self.get_valid_option('''
-            Your form of transportation 
-                0 - Walking
-                1 - Private Vehicle
-                2 - Public Vehicle
-
-Response: ''', ['0', '1', '2'])
+        transportation_type = self.get_valid_option(Constants.transportation_menu)
 
         if transportation_type == '0':
             transportation_co2e = 0  # No emissions for walking
@@ -185,8 +223,17 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
             encrypted_password += shifted_char
         return encrypted_password
 
-    def register(self):  # Prompts user for creating account info and stores it in 'users' dict and 'accounts.txt' file.
+    def load_users(self):
+        file_path = os.path.join(os.getcwd(), 'resources', 'accounts.txt')
+        with open(file_path, 'r') as file:
+            for line in file:
+                username, encrypted_password = line.strip().split(':')
+                self.users[username] = {'password': encrypted_password}
+        print(self.users)
+        return self.users
 
+    def register(self):  # Prompts user for creating account info and stores it in 'users' dict and 'accounts.txt' file.
+        self.load_users()
         while True:
             username = input("Enter your username: ")
             if username in self.users:
@@ -202,16 +249,12 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
         print("Registration successful.")
         return username
 
-    def load_users(self):
-        file_path = os.path.join(os.getcwd(), 'resources', 'accounts.txt')
-        with open(file_path, 'r') as file:
-            for line in file:
-                username, encrypted_password = line.strip().split(':')
-                self.users[username] = {'password': encrypted_password}
 
     def login(self):  # Prompts the user to login and checks if it matches a stored user account in the 'user' dict.
+        self.load_users()
         username = input("Enter your username: ")
         password = input("Enter your password: ")
+        print(self.users)
         encrypted_password = self.__encrypt_password(password)
         if username in self.users and self.users[username]['password'] == encrypted_password:
             print(f"Welcome, {username}!")
@@ -251,24 +294,19 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
 
     def show_home(self, current_user):
         self.current_user = current_user
-        main_menu = '''
-                                        Menu
-            
-                                    1 - Calculate Emission
-                                    2 - Track
-                                    0 - Log out
-Response: '''
         os.system('cls')
         print(Constants.logo)
         Constants.print_random_recommendation()
-        choice = super().get_valid_option(main_menu, ['1', '2', '0'])
+        choice = super().get_valid_option(Constants.home_menu)
         if choice == '1':
             super(AccountManager, self).calculate_all(self.current_user)
             input("\nPress any key to continue...")
+            self.show_home(current_user)
         elif choice == '2':
             data_dict = self.file_to_dict(current_user)
             print(f"\n{self.generate_table(data_dict)}")
             Constants.print_random_recommendation()
             input("\nPress any key to continue...")
+            self.show_home(current_user)
         else:
             pass
