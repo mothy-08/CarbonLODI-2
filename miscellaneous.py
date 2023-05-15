@@ -3,7 +3,6 @@ import os
 import sys
 import datetime
 import random
-from typing import Tuple, List
 
 try:
     from tabulate import tabulate
@@ -76,6 +75,13 @@ Response: '''
                 random_line = random.choice(lines)
                 print(f"\nRecommendation: {random_line.strip()}")
 
+    @staticmethod
+    def loading_screen():
+        duration = 5
+        interval = 0.1
+        progress_bar_width = 40
+        total_ticks = int(duration / interval)
+
 
 class ErrorHandler(ErrorHandlerABC):
     def get_valid_option(self, prompt, valid_options=None):
@@ -120,17 +126,14 @@ class CarbonCalculator(CarbonCalculatorABC, ErrorHandler):
         electricity_use = super().get_float("Electric consumption per month (kWH): ")
         cooking_fuel = super().get_valid_option(Constants.cooking_menu)
 
-        emissions_mapping = {
-            '1': {'fuel': 'LPG',
-                'coefficient': 35 / super().get_float("Estimate the number of days your 11 kg LPG lasts: ") * 30},
-            '2': {'fuel': 'Electric', 'coefficient': super().get_float(
-                "Estimate the average number of hours per day you use an electric stove: ") * 0.42},
-            '3': {'fuel': 'Bio', 'coefficient': super().get_float(
-                "Estimate the average number of hours per day you use a bio stove: ") * 0.03}
-        }
+        # Formulas for cooking per day
+        if cooking_fuel == '0':
+            cooking_emission = 35 / super().get_float("Estimate the number of days your 11 kg LPG lasts: ")
+        elif cooking_fuel == '1':
+            cooking_emission = super().get_float("Estimate the average number of hours per day you use an electric stove: ") * 0.42
+        else:
+            cooking_emission = super().get_float("Estimate the average number of hours per day you use a bio stove: ") * 0.03
 
-        cooking_emission = sum(
-            mapping['coefficient'] for fuel_type, mapping in emissions_mapping.items() if fuel_type == cooking_fuel)
         #  Formulas per month
         house_size_sq_ft = house_size_sq_m * 10.764  # 1 sq m = 10.764 sq ft
         electricity_emissions = electricity_use * 0.5  # 0.5 kg CO2e per kWH
@@ -188,7 +191,8 @@ class CarbonCalculator(CarbonCalculatorABC, ErrorHandler):
     def calculate_all(self, current_user):
         date = datetime.datetime.now()
         total_emissions = self.calculate_housing_emissions() + self.calculate_transportation_emissions() + self.calculate_food_emissions()
-        print(f"Today's total carbon emission is {total_emissions} grams")
+
+        print(f"\nToday's total carbon emission is {round(total_emissions, 2)} grams")
         Constants.print_random_recommendation()
         file_path = os.path.join(os.getcwd(), 'users', f"user-{current_user}.txt")
         with open(file_path, 'a') as file:
