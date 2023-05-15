@@ -207,8 +207,7 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
     def __init__(self):
         self.current_user = None
         self.record = {}
-        self.users = {}
-        self.load_users
+        self.users = self.load_users()
 
     @staticmethod
     def __encrypt_password(password):  # (Private) Encrypts a password using a secret key.
