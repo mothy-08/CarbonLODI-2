@@ -66,7 +66,40 @@ honey: 1.4
 maple syrup: 1.4
 olive oil: 4.3
 canola oil: 3.3
-butter: 12.0
 margarine: 6.7
 mayonnaise: 5.6
 ketchup: 0
+grapefruit: 0.5
+pineapple: 0.5
+watermelon: 0.3
+kiwi: 0.4
+broccoli: 0.5
+carrots: 0.4
+green beans: 0.3
+mushrooms: 0.7
+cauliflower: 0.3
+bell peppers: 0.3
+onions: 0.2
+garlic: 0.1
+spinach: 0.2
+potatoes: 0.4
+sweet potatoes: 0.5
+cabbage: 0.3
+lettuce: 0.2
+cucumbers: 0.2
+tomatoes: 0.2
+corn: 0.8
+peas: 0.4
+asparagus: 0.3
+zucchini: 0.4
+pumpkin: 0.5
+butternut squash: 0.6
+celery: 0.2
+beets: 0.4
+apples: 0.2
+oranges: 0.3
+bananas: 0.3
+grapes: 0.3
+peaches: 0.4
+plums: 0.3
+mangoes: 0.4
