@@ -4,8 +4,7 @@ import sys
 try:
     from miscellaneous import Constants
     from miscellaneous import AccountManager
-except ModuleNotFoundError:
-    # Handle the missing module error
+except ModuleNotFoundError:  # Handle the missing module error
     print("The 'miscellaneous.py' file is missing.")
     print("Please download the latest version of the Repository")
     time.sleep(3)
