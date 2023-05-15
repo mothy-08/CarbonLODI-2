@@ -27,11 +27,12 @@ Response: '''
 
     @staticmethod
     def print_random_recommendation():
-        with open('recommendations.txt', 'r') as file:
+        file_path = os.path.join(os.getcwd(), 'resources', 'recommendations.txt')
+        with open(file_path, 'r') as file:
             lines = file.readlines()
             if lines:
                 random_line = random.choice(lines)
-                print(f"\n\t\tRecommendation: {random_line.strip()}")
+                print(f"\nRecommendation: {random_line.strip()}")
 
 
 class ErrorHandler(ErrorHandlerABC):
@@ -123,7 +124,9 @@ Response: ''', ['0', '1', '2'])
 
     def calculate_food_emissions(self):
         emissions_dict = {}
-        with open("food.txt") as f:
+
+        file_path = os.path.join(os.getcwd(), 'resources', 'food.txt')
+        with open(file_path) as f:
             for line in f:
                 food, emissions = line.strip().split(":")
                 emissions_dict[food] = float(emissions)
@@ -146,11 +149,11 @@ Response: ''', ['0', '1', '2'])
 
     def calculate_all(self, current_user):
         date = datetime.datetime.now()
-        filename = f"user-{current_user}.txt"  # names '.txt' files for each user
         total_emissions = self.calculate_housing_emissions() + self.calculate_transportation_emissions() + self.calculate_food_emissions()
         print(f"Today's total carbon emission is {total_emissions} grams")
         Constants.print_random_recommendation()
-        with open(filename, 'a') as file:
+        file_path = os.path.join(os.getcwd(), 'users', f"user-{current_user}.txt")
+        with open(file_path, 'a') as file:
             file.write(f"{date.strftime('%Y-%m-%d')} : {round(total_emissions, 2)}\n")
 
 
@@ -193,13 +196,15 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
         password = input("Enter a password: ")
         encrypted_password = self.__encrypt_password(password)
         self.users[username] = {'password': encrypted_password}
-        with open("accounts.txt", 'a') as file:  # Appends every account into 'accounts.txt'
+        file_path = os.path.join(os.getcwd(), 'resources', "accounts.txt")
+        with open(file_path, 'a') as file:  # Appends every account into 'accounts.txt'
             file.write(f"{username}:{encrypted_password}\n")
         print("Registration successful.")
         return username
 
-    def load_users(self):  # Loads user account information from the 'accounts.txt' file into the 'users' dict.
-        with open("accounts.txt", 'r') as file:
+    def load_users(self):
+        file_path = os.path.join(os.getcwd(), 'resources', 'accounts.txt')
+        with open(file_path, 'r') as file:
             for line in file:
                 username, encrypted_password = line.strip().split(':')
                 self.users[username] = {'password': encrypted_password}
@@ -218,7 +223,8 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
     def file_to_dict(current_user):
         data_dict = {}
         try:
-            with open(f"user-{current_user}.txt", 'r') as file:
+            file_path = os.path.join(os.getcwd(), 'users', f"user-{current_user}.txt")
+            with open(file_path, 'r') as file:
                 for line in file:
                     line = line.strip()
                     if line:
