@@ -75,13 +75,6 @@ Response: '''
                 random_line = random.choice(lines)
                 print(f"\nRecommendation: {random_line.strip()}")
 
-    @staticmethod
-    def loading_screen():
-        duration = 5
-        interval = 0.1
-        progress_bar_width = 40
-        total_ticks = int(duration / interval)
-
 
 class ErrorHandler(ErrorHandlerABC):
     def get_valid_option(self, prompt, valid_options=None):
@@ -130,9 +123,11 @@ class CarbonCalculator(CarbonCalculatorABC, ErrorHandler):
         if cooking_fuel == '0':
             cooking_emission = 35 / super().get_float("Estimate the number of days your 11 kg LPG lasts: ")
         elif cooking_fuel == '1':
-            cooking_emission = super().get_float("Estimate the average number of hours per day you use an electric stove: ") * 0.42
+            cooking_emission = super().get_float(
+                "Estimate the average number of hours per day you use an electric stove: ") * 0.42
         else:
-            cooking_emission = super().get_float("Estimate the average number of hours per day you use a bio stove: ") * 0.03
+            cooking_emission = super().get_float(
+                "Estimate the average number of hours per day you use a bio stove: ") * 0.03
 
         #  Formulas per month
         house_size_sq_ft = house_size_sq_m * 10.764  # 1 sq m = 10.764 sq ft
@@ -213,8 +208,7 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
         self.current_user = None
         self.record = {}
         self.users = {}
-        if os.path.exists("accounts.txt"):
-            self.load_users()
+        self.load_users
 
     @staticmethod
     def __encrypt_password(password):  # (Private) Encrypts a password using a secret key.
@@ -227,17 +221,22 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
             encrypted_password += shifted_char
         return encrypted_password
 
+    @property
     def load_users(self):
         file_path = os.path.join(os.getcwd(), 'resources', 'accounts.txt')
-        with open(file_path, 'r') as file:
-            for line in file:
-                username, encrypted_password = line.strip().split(':')
-                self.users[username] = {'password': encrypted_password}
-        print(self.users)
-        return self.users
+        try:
+            with open(file_path, 'r') as file:
+                for line in file:
+                    username, encrypted_password = line.strip().split(':')
+                    self.users[username] = {'password': encrypted_password}
+            return self.users
+        except FileNotFoundError:
+            print("The 'accounts.txt' file is missing.")
+            print("Please download the latest version of the Repository")
+            time.sleep(3)
+            sys.exit(1002)
 
     def register(self):  # Prompts user for creating account info and stores it in 'users' dict and 'accounts.txt' file.
-        self.load_users()
         while True:
             username = input("Enter your username: ")
             if username in self.users:
@@ -253,9 +252,7 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
         print("Registration successful.")
         return username
 
-
     def login(self):  # Prompts the user to login and checks if it matches a stored user account in the 'user' dict.
-        self.load_users()
         username = input("Enter your username: ")
         password = input("Enter your password: ")
         print(self.users)
