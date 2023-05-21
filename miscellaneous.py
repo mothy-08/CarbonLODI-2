@@ -207,7 +207,7 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
     def __init__(self):
         self.current_user = None
         self.record = {}
-        self.users = self.load_users()
+        self.users = self.load_users
 
     @staticmethod
     def __encrypt_password(password):  # (Private) Encrypts a password using a secret key.
@@ -224,11 +224,12 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
     def load_users(self):
         file_path = os.path.join(os.getcwd(), 'resources', 'accounts.txt')
         try:
+            users = {}
             with open(file_path, 'r') as file:
                 for line in file:
                     username, encrypted_password = line.strip().split(':')
-                    self.users[username] = {'password': encrypted_password}
-            return self.users
+                    users[username] = {'password': encrypted_password}
+            return users
         except FileNotFoundError:
             print("The 'accounts.txt' file is missing.")
             print("Please download the latest version of the Repository")
