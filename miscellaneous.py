@@ -255,7 +255,6 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
     def login(self):  # Prompts the user to login and checks if it matches a stored user account in the 'user' dict.
         username = input("Enter your username: ")
         password = input("Enter your password: ")
-        print(self.users)
         encrypted_password = self.__encrypt_password(password)
         if username in self.users and self.users[username]['password'] == encrypted_password:
             print(f"Welcome, {username}!")
