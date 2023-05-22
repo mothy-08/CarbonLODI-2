@@ -46,7 +46,7 @@ Carbon __L.O.D.I__ _stands for:_
 </p>
 
 <p align="justify">
-Climate change refers to long-term shifts in temperatures and weather patterns, mainly caused by human activities, and is a distinctly alarming matter. As we live in a modern contemporary world, individuals, corporations, businesses, industries, and many more have ever-increasing greenhouse gasses. Reducing carbon emissions is significant because it can help offset the dangerous and harmful effects high levels of CO2 have on our environment that has caused increased heat, drought, and insect outbreaks.
+Climate change refers to long-term shifts in temperatures and weather patterns and is a distinctly alarming matter. As we live in a modern contemporary world, individuals, corporations, businesses, industries, and many more have ever-increasing greenhouse gasses. Reducing carbon emissions is significant because it can help offset the dangerous and harmful effects high levels of carbon dioxide (CO2) have on our environment that has caused increased heat, drought, and insect outbreaks.
 </p>
 
 <p align="justify">
