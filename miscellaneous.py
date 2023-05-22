@@ -257,7 +257,7 @@ class AccountManager(AccountManagerABC, CarbonCalculator):
         password = input("Enter your password: ")
         encrypted_password = self.__encrypt_password(password)
         if username in self.users and self.users[username]['password'] == encrypted_password:
-            print(f"Welcome, {username}!")
+            print(f"\nWelcome, {username}!")
             return username
         else:
             print("Invalid username or password.")
