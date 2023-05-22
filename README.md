@@ -46,11 +46,11 @@ Carbon __L.O.D.I__ _stands for:_
 </p>
 
 <p align="justify">
-Climate change refers to long-term shifts in temperatures and weather patterns, mainly caused by human activities, and is a distinctly alarming matter. As we live in a modern contemporary world, individuals, corporations, businesses, industries, and many more have ever-increasing greenhouse gasses. Reducing carbon emissions is significant because it can help offset the dangerous and harmful effects high levels of CO2 have on our environment that has caused increased heat, drought, and insect outbreaks. Thus, reducing one's carbon footprint and learning to mitigate our actions are ways to lessen carbon emissions.
+Climate change refers to long-term shifts in temperatures and weather patterns, mainly caused by human activities, and is a distinctly alarming matter. As we live in a modern contemporary world, individuals, corporations, businesses, industries, and many more have ever-increasing greenhouse gasses. Reducing carbon emissions is significant because it can help offset the dangerous and harmful effects high levels of CO2 have on our environment that has caused increased heat, drought, and insect outbreaks.
 </p>
 
 <p align="justify">
-To do this, one must track their carbon footprint and determine where one can make changes to reduce their carbon emissions. Your carbon footprint is the amount of greenhouse gases—including carbon dioxide, methane, nitrous oxide, fluorinated gases and others—that you produce as you live your life. People can better comprehend the effects of their everyday activities and lifestyle decisions on their environment by keeping track of their carbon footprint. They can then take action to lessen those effects. Thus, if we achieve a minimized carbon footprint, we firmly believe we can attain a more sustainable lifestyle alongside a more promising future.
+Your carbon footprint is the amount of greenhouse gases—including carbon dioxide, methane, nitrous oxide, fluorinated gases and others—that you produce as you live your life. People can better comprehend the effects of their everyday activities and lifestyle decisions on their environment by keeping track of their carbon footprint. Thus, if we achieve a minimized carbon footprint, we firmly believe we can attain a more sustainable lifestyle alongside a more promising future.
 </p>
 
 <p align="justify">
